@@ -95,17 +95,7 @@ runs:
 
     - name: Show flutter version
       shell: bash
-      run: flutter --version
-
-    - name: Linux dependencies (optional)
-      if: ${{ runner.os == 'Linux' }}
-      shell: bash
-      run: |
-        sudo apt-get update
-        # Base utilities + desktop requirements
-        sudo apt-get install -y curl git unzip xz-utils zip libglu1-mesa \
-             clang cmake ninja-build pkg-config libgtk-3-dev libstdc++-12-dev || true
-    
+      run: flutter --version    
 
     - name: Precache Flutter artifacts
       shell: bash

@@ -30,13 +30,23 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Configure Java (Temurin)
+    - name: Configurar Java (Temurin)
       if: ${{ inputs.java-version != '' }}
       uses: actions/setup-java@v4
       with:
         distribution: temurin
         java-version: ${{ inputs.java-version }}
-        cache: gradle
+
+    - name: Cache Gradle (opcional)
+      if: ${{ inputs.cache == 'true' && hashFiles('**/*.gradle*','**/gradle-wrapper.properties','gradle/*.versions.toml','**/versions.properties','buildSrc/**/Versions.kt','buildSrc/**/Dependencies.kt') != '' }}
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/.gradle/caches
+          ~/.gradle/wrapper
+        key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle*','**/gradle-wrapper.properties','gradle/*.versions.toml','**/versions.properties','buildSrc/**/Versions.kt','buildSrc/**/Dependencies.kt') }}
+        restore-keys: |
+          gradle-${{ runner.os }}-
 
     - name: Calculate cache keys and Flutter metadata
       id: meta
@@ -96,7 +106,7 @@ runs:
         sudo apt-get install -y curl git unzip xz-utils zip libglu1-mesa \
              clang cmake ninja-build pkg-config libgtk-3-dev libstdc++-12-dev || true
     
-    
+
     - name: Precache Flutter artifacts
       shell: bash
       run: |

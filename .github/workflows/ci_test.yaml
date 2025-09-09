@@ -13,7 +13,6 @@ jobs:
           channel: stable
           flutter-version: latest
           java-version: "17"
-          android: "true"
           cache: "true"
       - run: flutter --version
       - run: dart --version
@@ -27,7 +26,6 @@ jobs:
           channel: stable
           flutter-version: latest
           java-version: "17"
-          android: "false"
           cache: "true"
       - run: flutter --version
 

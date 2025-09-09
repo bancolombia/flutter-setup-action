@@ -1,0 +1,46 @@
+name: Test Setup Flutter
+on:
+  push:
+  pull_request:
+
+jobs:
+  linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./
+        with:
+          channel: stable
+          flutter-version: latest
+          java-version: "17"
+          android: "true"
+          cache: "true"
+      - run: flutter --version
+      - run: dart --version
+
+  macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./
+        with:
+          channel: stable
+          flutter-version: latest
+          java-version: "17"
+          android: "false"
+          cache: "true"
+      - run: flutter --version
+
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./
+        with:
+          channel: beta
+          flutter-version: latest
+          java-version: ""
+          android: "false"
+          cache: "true"
+      - shell: bash
+        run: flutter --version
